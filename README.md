@@ -9,3 +9,5 @@ Description of variables in code
     
 - **info (dict):** diagnostic information useful for debugging. It can sometimes be useful for learning (for example, it might contain the raw probabilities behind the environment's last state change). However, official evaluations of your agent are not allowed to use this for learning.
 
+# check out:
+https://github.com/allanbreyes/gym-solutions/blob/master/analysis/mdp.py
