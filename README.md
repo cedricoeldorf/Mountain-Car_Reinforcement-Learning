@@ -10,4 +10,9 @@ Description of variables in code
 - **info (dict):** diagnostic information useful for debugging. It can sometimes be useful for learning (for example, it might contain the raw probabilities behind the environment's last state change). However, official evaluations of your agent are not allowed to use this for learning.
 
 # check out:
-https://github.com/allanbreyes/gym-solutions/blob/master/analysis/mdp.py
+- https://github.com/allanbreyes/gym-solutions/blob/master/analysis/mdp.py
+- https://vmayoral.github.io/robots,/simulation,/ai,/rl,/reinforcement/learning/2016/08/19/openai-gym-for-robotics/
+
+- Position: [-1.2,0.6]
+- Speed: [-0.07,0.07]
+- reward is -1 per step
