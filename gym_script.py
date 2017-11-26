@@ -1,13 +1,13 @@
 import gym
 import numpy as np
-slow = True
+slow = False
 env = gym.make("MountainCar-v0")
 
 position_start = env.observation_space.low[0]
 position_end = env.observation_space.high[0]
 speed_start = env.observation_space.low[1]
 speed_end = env.observation_space.high[1]
-number_of_bins = 20
+number_of_bins = 99
 
 def discretize(start, end, bins):
     bin_width = (end - start) / bins
@@ -34,14 +34,14 @@ speed = []
 for s in states:
     pos.append(s[0])
     speed.append(s[1])
-
-
+pos = set(pos)
+speed = set(speed)
 ######################
 ## x represents the observed (position,speed)
 def map_observation_to_state(x, states, pos, speed):
 
     closest_position = min(pos, key=lambda y:abs(y-x[0]))
-    closest_speed = min(speed, key=lambda y:abs(y-x[0]))
+    closest_speed = min(speed, key=lambda y:abs(y-x[1]))
     n = np.array((closest_position,closest_speed))
     state_index = np.where((states==n).all(axis=1))[0][0]
     return state_index
@@ -50,7 +50,7 @@ def map_observation_to_state(x, states, pos, speed):
 
 
 Q = np.zeros([len(states), env.action_space.n])
-learning_rate = 1
+learning_rate = 0.8
 gamma = 0.9
 number_of_episodes= 30000
 reward_list = []
@@ -76,7 +76,9 @@ for i in range(number_of_episodes):
         state = next_state
         if done ==True or j==199:
             if done == False:
-                print ("Done = False, not an episode")
+                print ("FAILED")
+            else:
+                print("SUCCEEDED")
             print ("Episode " + str(i) + ": Reward: " + str(all_rewards))
             #print ("================================================")
             #print(Q)
