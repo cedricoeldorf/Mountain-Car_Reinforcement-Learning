@@ -28,21 +28,26 @@ for i in position_bins:
       states.append(np.array([i,j]))
 states = np.array(states)
 
-def value_to_state(x, states):
-    pos = []
-    speed = []
-    for s in states:
-        
+################
+## Prep for value to states
+pos = []
+speed = []
+for s in states:
+    pos.append(s[0])
+    speed.append(s[1])
 
 
-    closest_position = min(states, key=lambda x:abs(x-myNumber))xpos=np.digitize(x[0],pos_bins)
-    xvel=np.digitize(x[1],vel_bins)
-    stateValue = np.array([pos_bins[xpos],vel_bins[xvel]])
-    state = np.where((allStates==stateValue).all(axis=1))[0][0]
-    return state
+######################
+## x represents the observed (position,speed)
+def map_observation_to_state(x, states, pos, speed):
 
-def find_in_states (x, states):
-    for i in states[0]
+    closest_position = min(pos, key=lambda y:abs(y-x[0]))
+    closest_speed = min(speed, key=lambda y:abs(y-x[0]))
+    n = np.array((closest_position,closest_speed))
+    state_index = np.where((states==n).all(axis=1))
+    return state_index
+
+
 
 
 
