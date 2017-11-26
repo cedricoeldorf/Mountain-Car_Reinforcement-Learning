@@ -1,7 +1,5 @@
-
 import gym
 import numpy as np
-
 slow = True
 env = gym.make("MountainCar-v0")
 
@@ -10,7 +8,6 @@ position_end = env.observation_space.high[0]
 speed_start = env.observation_space.low[1]
 speed_end = env.observation_space.high[1]
 number_of_bins = 20
-
 
 def discretize(start, end, bins):
     bin_width = (end - start) / bins
@@ -22,11 +19,13 @@ def discretize(start, end, bins):
 
 position_bins = discretize(position_start, position_end, number_of_bins)
 speed_bins = discretize(speed_start, speed_end, number_of_bins)
+
 states = []
 for i in position_bins:
     for j in speed_bins:
       states.append(np.array([i,j]))
 states = np.array(states)
+
 
 ################
 ## Prep for value to states
@@ -50,15 +49,37 @@ def map_observation_to_state(x, states, pos, speed):
 
 
 
+Q = np.zeros([len(states), env.action_space.n])
+learning_rate = 1
+gamma = 0.9
+number_of_episodes= 30000
+reward_list = []
 
+for i in range(number_of_episodes):
+    initial_state = env.reset()
+    state = map_observation_to_state(initial_state, states, pos, speed)
+    all_rewards =0
+    done = False
+    j = 0
+    while j<200:
+        j+=1
 
+        # #############################################################################
+        action = np.argmax(Q[state,:]+np.random.randn(1,env.action_space.n)*(1./(i+1)))
+        # #############################################################################
 
-
-
-
-
-
-
-
-print(position_bins)
-print(speed_bins)
+        observation, reward, done, _ = env.step(action)
+        next_state = map_observation_to_state(observation, states, pos, speed)
+        #env.render()
+        Q[state,action] += learning_rate*(reward+gamma*np.max(Q[next_state,:])-Q[state,action])
+        all_rewards += reward
+        state = next_state
+        if done ==True or j==199:
+            if done == False:
+                print ("Done = False, not an episode")
+            print ("Episode " + str(i) + ": Reward: " + str(all_rewards))
+            #print ("================================================")
+            #print(Q)
+            #print ("================================================")
+            reward_list.append(all_rewards)
+            break
