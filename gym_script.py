@@ -44,7 +44,7 @@ def map_observation_to_state(x, states, pos, speed):
     closest_position = min(pos, key=lambda y:abs(y-x[0]))
     closest_speed = min(speed, key=lambda y:abs(y-x[0]))
     n = np.array((closest_position,closest_speed))
-    state_index = np.where((states==n).all(axis=1))
+    state_index = np.where((states==n).all(axis=1))[0][0]
     return state_index
 
 
