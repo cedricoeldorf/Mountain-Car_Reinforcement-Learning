@@ -1,19 +1,21 @@
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 slow = False
 env = gym.make("MountainCar-v0")
-render_suimulation = False
+render_simulation = False
 ##########################
 ## initializing constants
 position_start = env.observation_space.low[0] #  -1.2
 position_end = env.observation_space.high[0]  #   0.6
 speed_start = env.observation_space.low[1]    # -0.07
 speed_end = env.observation_space.high[1]     #  0.07
-number_of_bins = 20
+number_of_bins = 60
 learning_rate = 0.8
 gamma = 0.9
-number_of_episodes = 2000
+number_of_episodes = 600000
 reward_list = []
 
 ##############################
@@ -40,7 +42,6 @@ for i in position_bins:
 states = np.array(states)
 
 Q = np.zeros([len(states), env.action_space.n])
-
 ############################
 ## Prep for value to states
 position = []
@@ -48,8 +49,27 @@ speed = []
 for s in states:
     position.append(s[0])
     speed.append(s[1])
+
 position = set(position)
 speed = set(speed)
+
+########################
+## Prep for heatmap
+pos = []
+spe = []
+for s in states:
+    pos.append(str(s[0]))
+    spe.append(str(s[1]))
+pos = set(pos)
+spe = set(spe)
+df_heatmap = pd.DataFrame(index = pos, columns = spe)
+df_heatmap.index = df_heatmap.index.map(float)
+df_heatmap.columns = df_heatmap.columns.map(float)
+df_heatmap = df_heatmap.sort_index(axis = 0)
+df_heatmap = df_heatmap.sort_index(axis = 1)
+df_heatmap.index = df_heatmap.index.map(str)
+df_heatmap.columns = df_heatmap.columns.map(str)
+df_heatmap = df_heatmap.fillna(0)
 
 ##############################################
 ## x represents the observed (position,speed)
@@ -64,7 +84,7 @@ def map_observation_to_state(x, states, pos, speed):
 ## Q-learning
 for i in range(number_of_episodes):
     initial_state = env.reset()
-    if render_suimulation == True:
+    if render_simulation == True:
         env.render()
     state = map_observation_to_state(initial_state, states, position, speed)
     all_rewards = 0
@@ -75,9 +95,13 @@ for i in range(number_of_episodes):
         action = np.argmax(Q[state,:])
         observation, reward, done, _ = env.step(action)
         next_state = map_observation_to_state(observation, states, position, speed)
-        if render_suimulation == True:
+        if render_simulation == True:
             env.render()
         Q[state,action] += learning_rate * (reward + gamma * np.max(Q[next_state,:]) - Q[state,action])
+
+        state_pos = str(states[state][0])
+        state_speed = str(states[state][1])
+        df_heatmap[str(state_speed)][str(state_pos)] = np.argmax(Q[state,:])
         all_rewards += reward
         state = next_state
         if j == 199 or done == True:
@@ -88,6 +112,16 @@ for i in range(number_of_episodes):
             print ("Episode " + str(i) + ": Reward: " + str(all_rewards))
             reward_list.append(all_rewards)
             break
+
+
+df_heatmap = df_heatmap.fillna(0)
+
+df_heatmap.to_csv('./heatmap2.csv', index = False)
+
+plt.ion()
+sns.heatmap(df_heatmap)
+plt.show()
+
 
 #extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 #plt.clf()
