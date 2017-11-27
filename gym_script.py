@@ -1,3 +1,6 @@
+#########################################
+## Inspiration for functions courtesy of https://github.com/sezan92/ReinforcementOpenAi
+#########################################
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
@@ -121,13 +124,3 @@ df_heatmap.to_csv('./heatmap2.csv', index = False)
 plt.ion()
 sns.heatmap(df_heatmap)
 plt.show()
-
-
-#extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-#plt.clf()
-#plt.imshow(Q)
-#plt.show()
-
-#plt.imshow(Q, cmap='hot', interpolation='nearest')
-#plt.colorbar()
-#plt.show()
