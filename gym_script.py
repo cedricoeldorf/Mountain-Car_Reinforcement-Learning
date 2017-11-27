@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 slow = False
 env = gym.make("MountainCar-v0")
-
+render_suimulation = False
 ##########################
 ## initializing constants
 position_start = env.observation_space.low[0] #  -1.2
@@ -64,6 +64,8 @@ def map_observation_to_state(x, states, pos, speed):
 ## Q-learning
 for i in range(number_of_episodes):
     initial_state = env.reset()
+    if render_suimulation == True:
+        env.render()
     state = map_observation_to_state(initial_state, states, position, speed)
     all_rewards = 0
     done = False
@@ -73,7 +75,8 @@ for i in range(number_of_episodes):
         action = np.argmax(Q[state,:])
         observation, reward, done, _ = env.step(action)
         next_state = map_observation_to_state(observation, states, position, speed)
-        #env.render()
+        if render_suimulation == True:
+            env.render()
         Q[state,action] += learning_rate * (reward + gamma * np.max(Q[next_state,:]) - Q[state,action])
         all_rewards += reward
         state = next_state
@@ -81,7 +84,7 @@ for i in range(number_of_episodes):
             if done == False:
                 print ("FAILED")
             else:
-                print("                                       SUCCEEDED")
+                print("SUCCEEDED")
             print ("Episode " + str(i) + ": Reward: " + str(all_rewards))
             reward_list.append(all_rewards)
             break
