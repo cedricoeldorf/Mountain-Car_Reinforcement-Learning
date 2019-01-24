@@ -6,7 +6,7 @@ Reinforcement learning (RL) is an area of machine learning concerned with how so
 This project applies reinforcement learning to the mountain-car problem. Mountain Car, a standard testing domain in Reinforcement Learning, is a problem in which an under-powered car must drive up a steep hill. Since gravity is stronger than the car's engine, even at full throttle, the car cannot simply accelerate up the steep slope. The car is situated in a valley and must learn to leverage potential energy by driving up the opposite hill before the car is able to make it to the goal at the top of the rightmost hill. [2]
 
 ![alt text](./Mcar.png)
-Description of variables in code
+
 
 ## Methodology & Results
 
@@ -18,6 +18,7 @@ The environment was discretized into 60 bins with a learning rate of 0.8 trained
 
 
 ## Variables:
+Description of variables available in code.
 
 - **observation (object):** an environment-specific object representing your observation of the environment. For example, pixel data from a camera, joint angles and joint velocities of a robot, or the board state in a board game.
 
