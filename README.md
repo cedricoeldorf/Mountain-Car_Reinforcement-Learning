@@ -36,5 +36,6 @@ Description of variables available in code.
 
 # References
 
-[1] https://en.wikipedia.org/wiki/Reinforcement_learning#cite_note-Bert12-1
-[2] https://en.wikipedia.org/wiki/Mountain_car_problem
+- [1] https://en.wikipedia.org/wiki/Reinforcement_learning#cite_note-Bert12-1
+- [2] https://en.wikipedia.org/wiki/Mountain_car_problem
+- [3] https://github.com/sezan92/ReinforcementOpenAi
