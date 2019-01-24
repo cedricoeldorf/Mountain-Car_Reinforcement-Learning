@@ -18,7 +18,7 @@ speed_end = env.observation_space.high[1]     #  0.07
 number_of_bins = 60
 learning_rate = 0.8
 gamma = 0.9
-number_of_episodes = 600000
+number_of_episodes = 10000
 reward_list = []
 
 ##############################
