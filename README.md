@@ -12,10 +12,12 @@ Description of variables in code
 
 This project makes use of OpenAI's Gym environment in order to train a Q-Learning algorithm to solve the mountain car problem.
 
-The environment was discretized into 60 bins with a learning rate of 0.8 trained over 10 000 episodes. The results are visualized as follows:
+The environment was discretized into 60 bins with a learning rate of 0.8 trained over 10 000 episodes. A heatmap of the state plotted against the cars position was visualized:
+
+![alt text](./heatmap.png)
 
 
-
+## Variables:
 
 - **observation (object):** an environment-specific object representing your observation of the environment. For example, pixel data from a camera, joint angles and joint velocities of a robot, or the board state in a board game.
 
